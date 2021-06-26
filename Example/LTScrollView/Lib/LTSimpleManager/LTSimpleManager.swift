@@ -81,6 +81,7 @@
     private var pageView: LTPageView!
     private var currentSelectIndex: Int = 0
     private var titleView: LTPageTitleView!
+    private var titleViewColor: UIColor = .white
     
     private lazy var tableView: LTTableView = {
         let tableView = LTTableView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height), style:.plain)
@@ -88,16 +89,18 @@
         tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
         registerCell(tableView, UITableViewCell.self)
         return tableView
     }()
     
-    @objc public init(frame: CGRect, viewControllers: [UIViewController], titles: [String], currentViewController:UIViewController, layout: LTLayout, titleView: LTPageTitleView? = nil) {
+    @objc public init(frame: CGRect, viewControllers: [UIViewController], titles: [String], currentViewController:UIViewController, layout: LTLayout, titleView: LTPageTitleView? = nil, titleViewColor: UIColor = .white) {
         UIScrollView.initializeOnce()
         self.viewControllers = viewControllers
         self.titles = titles
         self.currentViewController = currentViewController
         self.layout = layout
+        self.titleViewColor = titleViewColor
         super.init(frame: frame)
         layout.isSinglePageView = true
         self.titleView = setupTitleView()
@@ -118,6 +121,7 @@
  extension LTSimpleManager {
     private func setupTitleView() -> LTPageTitleView {
         let titleView = LTPageTitleView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: layout.sliderHeight), titles: titles, layout: layout)
+        titleView.backgroundColor = titleViewColor
         return titleView
     }
  }
